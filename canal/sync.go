@@ -6,6 +6,9 @@ import (
 
 	"golang.org/x/net/context"
 
+	"bytes"
+	"regexp"
+
 	"github.com/juju/errors"
 	"github.com/ngaut/log"
 	"github.com/siddontang/go-mysql/mysql"
