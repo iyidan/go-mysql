@@ -6,7 +6,6 @@ import (
 
 	"golang.org/x/net/context"
 
-	"bytes"
 	"regexp"
 
 	"github.com/juju/errors"
