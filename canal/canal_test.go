@@ -54,8 +54,7 @@ func (s *canalTestSuite) SetUpSuite(c *C) {
 	s.execute(c, "SET GLOBAL binlog_format = 'ROW'")
 
 	s.c.RegRowsEventHandler(&testRowsEventHandler{})
-	err = s.c.Start()
-	c.Assert(err, IsNil)
+	s.c.Start()
 }
 
 func (s *canalTestSuite) TearDownSuite(c *C) {

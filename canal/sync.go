@@ -2,13 +2,10 @@ package canal
 
 import (
 	"regexp"
+	"sync"
 	"time"
 
 	"golang.org/x/net/context"
-
-	"regexp"
-
-	"sync"
 
 	"github.com/juju/errors"
 	"github.com/ngaut/log"
@@ -18,6 +15,9 @@ import (
 
 var (
 	expAlterTable = regexp.MustCompile("(?i)^ALTER\\sTABLE\\s.*?`{0,1}(.*?)`{0,1}\\.{0,1}`{0,1}([^`\\.]+?)`{0,1}\\s.*")
+
+	skipedSchemaLock sync.Mutex
+	skipedSchemaList []string
 )
 
 func (c *Canal) startSyncBinlog() error {
