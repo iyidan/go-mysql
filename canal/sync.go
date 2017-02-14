@@ -98,7 +98,9 @@ func (c *Canal) startSyncBinlog() error {
 		}
 		if posSaved {
 			if h := c.getMasterInfoHandler(); h != nil {
-				h.SavePos(pos.Name, pos.Pos)
+				if err = h.SavePos(pos.Name, pos.Pos); err != nil {
+					return err
+				}
 			}
 		}
 	}

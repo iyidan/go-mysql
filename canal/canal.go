@@ -49,6 +49,9 @@ type Canal struct {
 
 	quit   chan struct{}
 	closed sync2.AtomicBool
+
+	lastError     error
+	lastErrorLock sync.Mutex
 }
 
 func NewCanal(cfg *Config) (*Canal, error) {
@@ -132,12 +135,25 @@ func (c *Canal) prepareDumper() error {
 	return nil
 }
 
+func (c *Canal) SetLastError(err error) {
+	c.lastErrorLock.Lock()
+	c.lastError = err
+	c.lastErrorLock.Unlock()
+}
+
+func (c *Canal) GetLastError() error {
+	c.lastErrorLock.Lock()
+	defer c.lastErrorLock.Unlock()
+	return c.lastError
+}
+
 func (c *Canal) Start() <-chan struct{} {
 	c.wg.Add(1)
 	go func() {
 		err := c.run()
 		if err != nil {
 			log.Errorf("Canal.run return error:%v\n", err)
+			c.SetLastError(err)
 		}
 		c.Close()
 	}()
