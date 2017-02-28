@@ -25,6 +25,9 @@ type DumpConfig struct {
 
 	// If true, discard error msg, else, output to stderr
 	DiscardErr bool `toml:"discard_err"`
+
+	// Other dump args
+	ExtArgs []string `toml:"ext_args"`
 }
 
 type Config struct {

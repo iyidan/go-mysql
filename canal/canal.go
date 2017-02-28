@@ -9,10 +9,10 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/iyidan/go-mysql/dump"
 	"github.com/juju/errors"
 	"github.com/ngaut/log"
 	"github.com/siddontang/go-mysql/client"
-	"github.com/siddontang/go-mysql/dump"
 	"github.com/siddontang/go-mysql/mysql"
 	"github.com/siddontang/go-mysql/replication"
 	"github.com/siddontang/go-mysql/schema"
@@ -125,6 +125,9 @@ func (c *Canal) prepareDumper() error {
 			c.dumper.AddIgnoreTables(seps[0], seps[1])
 		}
 	}
+
+	// ext args
+	c.dumper.ExtArgs = c.cfg.Dump.ExtArgs
 
 	if c.cfg.Dump.DiscardErr {
 		c.dumper.SetErrOut(ioutil.Discard)

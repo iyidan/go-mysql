@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/juju/errors"
+	"github.com/ngaut/log"
 )
 
 // Unlick mysqldump, Dumper is designed for parsing and syning data easily.
@@ -26,6 +27,8 @@ type Dumper struct {
 	Databases []string
 
 	IgnoreTables map[string][]string
+
+	ExtArgs []string
 
 	ErrOut io.Writer
 }
@@ -112,6 +115,11 @@ func (d *Dumper) Dump(w io.Writer) error {
 	// Multi row is easy for us to parse the data
 	args = append(args, "--skip-extended-insert")
 
+	// ExtArgs
+	if len(d.ExtArgs) > 0 {
+		args = append(args, d.ExtArgs...)
+	}
+
 	for db, tables := range d.IgnoreTables {
 		for _, table := range tables {
 			args = append(args, fmt.Sprintf("--ignore-table=%s.%s", db, table))
@@ -132,6 +140,8 @@ func (d *Dumper) Dump(w io.Writer) error {
 
 		w.Write([]byte(fmt.Sprintf("USE `%s`;\n", d.TableDB)))
 	}
+
+	log.Infof("Dumper.Dump: startRun %s, %v\n", d.ExecutionPath, args)
 
 	cmd := exec.Command(d.ExecutionPath, args...)
 
