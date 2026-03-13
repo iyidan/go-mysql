@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/iyidan/go-mysql/dump"
+	"github.com/siddontang/go-mysql/dump"
 	"github.com/juju/errors"
 	"github.com/ngaut/log"
 	"github.com/siddontang/go-mysql/client"

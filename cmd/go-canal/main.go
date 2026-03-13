@@ -48,7 +48,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if len(*ignoreTables) == 0 {
+	if len(*ignoreTables) > 0 {
 		subs := strings.Split(*ignoreTables, ",")
 		for _, sub := range subs {
 			if seps := strings.Split(sub, "."); len(seps) == 2 {
@@ -67,11 +67,7 @@ func main() {
 
 	c.RegRowsEventHandler(&handler{})
 
-	err = c.Start()
-	if err != nil {
-		fmt.Printf("start canal err %V", err)
-		os.Exit(1)
-	}
+	c.Start()
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc,

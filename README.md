@@ -2,6 +2,10 @@
 
 A pure go library to handle MySQL network protocol and replication.
 
+## Go Modules
+
+This project uses Go Modules. You can fetch dependencies with `go mod tidy` and run tests with `go test ./...`.
+
 ## Replication
 
 Replication package handles MySQL replication protocol like [python-mysql-replication](https://github.com/noplay/python-mysql-replication).
